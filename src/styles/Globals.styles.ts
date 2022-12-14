@@ -15,7 +15,7 @@ export const Globals = createGlobalStyle`
     margin: 0;
   }
 
-  input, button, h2, p, label {
+  input, button, h2, p, label, h1, h3, span {
     font-family: Inter, 'sans-serif';
   }
 

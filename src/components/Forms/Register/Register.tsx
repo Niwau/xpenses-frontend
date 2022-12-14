@@ -7,6 +7,7 @@ import { RegisterFormValues } from '../../../types/form-values.types';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../../services/api';
+import { useCallback } from 'react';
 
 export const Register = () => {
   
@@ -14,19 +15,20 @@ export const Register = () => {
   
   const { register, handleSubmit, formState } = useForm<RegisterFormValues>({ resolver: yupResolver(registerSchema) });
 
-  const onSubmit: SubmitHandler<RegisterFormValues> = async (data) => {
+  const onSubmit: SubmitHandler<RegisterFormValues> = useCallback(
+    async (data) => {
     
-    try {
-      const response = await api.post('/auth/register', data);
-      toast.success('Your account was created!');
-      navigate('/signin');
-    } catch (error: any) {
-      toast.error(`${error.response.data.message}`);
-    }
-
-  }
+      try {
+        await api.post('/auth/register', data);
+        toast.success('Your account was created!');
+        navigate('/signin');
+      } catch (error: any) {
+        toast.error(`${error.response.data.message}`);
+      }
   
-
+    }, []
+  )
+  
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)}>
       <S.Header>Sign up</S.Header>

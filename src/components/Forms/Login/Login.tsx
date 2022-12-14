@@ -5,22 +5,30 @@ import * as S from '../../../styles/Form.styles'
 import { loginSchema } from './login.schema';
 import { LoginFormValues } from '../../../types/form-values.types';
 import { toast } from 'react-toastify';
+import { useCallback, useContext } from 'react';
+import { AuthContext } from '../../../contexts/AuthContext';
 
-const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
-  try {
-    const response = await api.post('/auth/login', data);
-    console.log(response);
-    localStorage.setItem('token', response.data.token)
-  } catch (error: any) {
-    toast.error(`${error.response.data.message}`);
-  }
-}
 
 export const Login = () => {
+
+  const { handleAuthentication } = useContext(AuthContext);
 
   const { register, handleSubmit, formState } = useForm<LoginFormValues>({
     resolver: yupResolver(loginSchema)
   });
+
+  const onSubmit: SubmitHandler<LoginFormValues> = useCallback(
+    async (data) => {
+      try {
+        const response = await api.post('/auth/login', data);
+        console.log(response);
+        localStorage.setItem('token', response.data.token);
+        handleAuthentication(true);
+      } catch (error: any) {
+        toast.error(`${error.response.data.message}`);
+      }
+    }, []
+  )
 
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)}>
