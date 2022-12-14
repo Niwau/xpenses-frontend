@@ -1,28 +1,31 @@
-import * as S from './Register.styles'
+import * as S from '../../../styles/Form.styles'
 import { useForm } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form/dist/types';
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup';
-
-interface FormValues {
-  name: string
-  email: string
-  password: string
-}
-
-const schema = yup.object().shape({
-  name: yup.string().required(),
-  email: yup.string().email().required(),
-  password: yup.string().min(8).max(32).required()
-})
-
-const onSubmit: SubmitHandler<FormValues> = (data) => {
-  console.log(data)
-}
+import { registerSchema } from './register.schema';
+import { RegisterFormValues } from '../../../types/form-values.types';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'
+import { api } from '../../../services/api';
 
 export const Register = () => {
+  
+  const navigate = useNavigate();
+  
+  const { register, handleSubmit, formState } = useForm<RegisterFormValues>({ resolver: yupResolver(registerSchema) });
 
-  const { register, handleSubmit, formState } = useForm<FormValues>({ resolver: yupResolver(schema)});
+  const onSubmit: SubmitHandler<RegisterFormValues> = async (data) => {
+    
+    try {
+      const response = await api.post('/auth/register', data);
+      toast.success('Your account was created!');
+      navigate('/signin');
+    } catch (error: any) {
+      toast.error(`${error.response.data.message}`);
+    }
+
+  }
+  
 
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)}>
@@ -43,7 +46,7 @@ export const Register = () => {
          <S.Error>{ formState.errors.password?.message }</S.Error>
       </S.Section>
       <S.Button>Create account</S.Button>
-      <S.Paragraph>Already have an account? <span>Log in</span></S.Paragraph>
+      <S.Paragraph>Already have an account? <S.Link to={'/signin'}>Log in</S.Link></S.Paragraph>
     </S.Form>
   )
 }

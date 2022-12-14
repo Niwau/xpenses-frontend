@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link as Anchor } from 'react-router-dom';
 
 export const Form = styled.form`
   position: absolute;
@@ -48,6 +49,7 @@ export const Button = styled.button`
   color: white;
   border: none;
   font-weight: 500;
+  cursor: pointer;
   border-radius: 0.5rem;
 `
 
@@ -60,4 +62,9 @@ export const Paragraph = styled.p`
 export const Error = styled.p`
   color: red;
   font-size: 1.5rem;
+`
+
+export const Link = styled(Anchor)`
+  color: var(--pink);
+  text-decoration: none;
 `
