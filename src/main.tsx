@@ -6,7 +6,7 @@ import { RouterProvider } from 'react-router-dom'
 import { Globals } from './styles/Globals.styles'
 import { Toast } from './components/Toast/Toast'
 import { Signin } from './pages/Signin'
-import { Main } from './pages/Main'
+import { Main } from './pages/Main/Main'
 import { AuthProvider } from './contexts/AuthContext'
 
 const router = createBrowserRouter(

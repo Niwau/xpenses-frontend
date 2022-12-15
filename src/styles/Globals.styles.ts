@@ -5,8 +5,11 @@ export const Globals = createGlobalStyle`
   :root {
     font-size: 8px;
     --light-gray: #E7E7E7;
-    --pink: #F75672;
-    --black: #181818;
+    --gray:       #848484;
+    --pink:       #F75672;
+    --black:      #181818;
+    --red:        #FF3535;
+    --green:      #37AB00;
   }
 
   * {

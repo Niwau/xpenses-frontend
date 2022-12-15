@@ -12,6 +12,19 @@ export const Card = styled.section`
   min-width: 40rem;
 `
 
+export const Input = styled.input`
+  background: none;
+  outline: none;
+  color: white;
+  font-size: 3rem;
+  font-weight: 600;
+  border:none;
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+`
+
 export const Title = styled.h1`
   color: white;
   font-weight: 300;
