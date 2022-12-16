@@ -21,6 +21,7 @@ export const Section = styled.section`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  height: min-width;
 `
 
 export const Label = styled.label`

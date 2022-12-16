@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 
-export const Span = styled.span`
+export const Button = styled.button`
   font-size: 2rem;
+  background: none;
+  border: none;
+  color: var(--pink);
+  cursor: pointer;
 `
 
 export const Header = styled.header`

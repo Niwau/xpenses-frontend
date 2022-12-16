@@ -5,7 +5,7 @@ export const Card = () => {
     <S.Card>
       <S.Section>
         <S.Title>BALANCE</S.Title>
-        <S.Price>$<S.Input type='number' defaultValue={0} step={0.01}></S.Input></S.Price>
+        <S.Price>$<S.Input type='number' defaultValue={0} step={0.01} min={0}></S.Input></S.Price>
       </S.Section>
       <S.Footer>
         <S.Section>
