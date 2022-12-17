@@ -1,9 +1,9 @@
 import { createContext, useCallback, useEffect, useState } from "react";
-import { AuthContextType, AuthProviderProps } from "../types/auth.types";
+import { AuthContextType, Children } from "../types/auth.types";
 
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-export const AuthProvider = ({ children } : AuthProviderProps) => {
+export const AuthProvider = ({ children } : Children) => {
   
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 

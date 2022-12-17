@@ -1,4 +1,4 @@
-export interface AuthProviderProps {
+export interface Children {
   children: React.ReactNode
 }
 
