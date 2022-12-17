@@ -12,16 +12,6 @@ export const Wrapper = styled.div`
   place-items: center;
 `;
 
-export const Content = styled.main`
-  background: white;
-  border: 1px solid var(--light-gray);
-  border-radius: 1rem;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`
-
 export const RadioGroup = styled.div`
   display: flex;
   align-items: center;

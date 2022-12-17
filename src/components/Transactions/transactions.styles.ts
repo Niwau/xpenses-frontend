@@ -24,3 +24,9 @@ export const Wrapper = styled.div`
 export const Title = styled.h1`
   color: var(--black);
 `
+
+export const Section = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`

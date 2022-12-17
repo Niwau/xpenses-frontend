@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface PriceProps {
-  type: 'expense' | 'income'
+  type: 'EXPENSE' | 'INCOME'
 }
 
 export const Price = styled.h3<PriceProps>`
@@ -11,7 +11,7 @@ export const Price = styled.h3<PriceProps>`
   display: flex;
   font-size: 2rem;
   font-weight: 500;
-  ${ ({ type }) => type == 'expense' ? 
+  ${ ({ type }) => type == 'EXPENSE' ? 
     'color: var(--red);' : 
     'color: var(--green);'
   };

@@ -2,13 +2,15 @@ import { ArrowArcRight, ArrowArcLeft } from "phosphor-react"
 import * as S from './transaction.styles'
 
 export interface TransactionProps {
-  type: 'expense' | 'income'
+  type: 'EXPENSE' | 'INCOME'
   name: string
   category: string
-  price: string
+  value: number
 }
 
-export const Transaction = ({ type, category, name, price }: TransactionProps) => {
+export const Transaction = ({ type, category, name, value }: TransactionProps) => {
+
+  const parsedPrice = (value / 100);
 
   return (
     <S.Wrapper>
@@ -19,7 +21,7 @@ export const Transaction = ({ type, category, name, price }: TransactionProps) =
           <S.Category>{category}</S.Category>
         </S.Section>
       </S.Aside>
-      <S.Price type={type}>{type == 'expense' ? <ArrowArcLeft/> : <ArrowArcRight/>}${price}</S.Price>
+      <S.Price type={type}>{type == 'EXPENSE' ? <ArrowArcLeft/> : <ArrowArcRight/>}${parsedPrice}</S.Price>
     </S.Wrapper>
   )
 }
