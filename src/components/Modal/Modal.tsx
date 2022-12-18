@@ -5,12 +5,13 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { ModalProps } from '../../types/modal.types'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
+import { api } from '../../services/api'
 
 interface ModalValues {
   name: string,
   category: string,
-  price: number,
-  type: 'expense' | 'income'
+  value: string,
+  type: 'EXPENSE' | 'INCOME'
 }
 
 export const Modal = ({ setIsOpen } : ModalProps) => {
@@ -18,10 +19,17 @@ export const Modal = ({ setIsOpen } : ModalProps) => {
   const { register, handleSubmit } = useForm<ModalValues>();
 
   const onSubmit: SubmitHandler<ModalValues> = useCallback(
-    (data) => {
-      console.log(data);
-      toast.success('New transaction added!')
+    async (data) => {
+
+      try {
+        await api.post('/transactions', {...data, value: parseFloat(data.value) * 100 })
+        toast.success('New transaction added!')
+      } catch (error) {
+        toast.error('An error occured');
+      }
+      
       setIsOpen(false)
+      
     }
   , [])
       
@@ -40,16 +48,16 @@ export const Modal = ({ setIsOpen } : ModalProps) => {
           </F.Section>
           <F.Section>
             <F.Label>Price</F.Label>
-            <F.Input {...register('price')} type='number' step={0.01} min={0} required/>
+            <F.Input {...register('value')} type='number' step={0.01} min={0} required/>
           </F.Section>
           <S.Section>
             <F.Label>Type</F.Label>
             <S.RadioGroup>
-              <S.Radio {...register('type')} id="expense"value='expense' required/>
+              <S.Radio {...register('type')} id="expense"value='EXPENSE' required/>
               <S.RadioLabel htmlFor="expense">Expense</S.RadioLabel>
             </S.RadioGroup>
             <S.RadioGroup>
-              <S.Radio {...register('type')} id="income" value='income' required/>
+              <S.Radio {...register('type')} id="income" value='INCOME' required/>
               <S.RadioLabel htmlFor="income">Income</S.RadioLabel>
             </S.RadioGroup>
           </S.Section>
