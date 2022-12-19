@@ -1,5 +1,7 @@
-import { createContext, useReducer } from "react"
+import { createContext, useCallback, useReducer } from "react"
 import { Children } from "../types/auth.types"
+import { ITransaction } from "../components/Transaction/transaction.type"
+import { parsePrice } from "../helpers/parsePrice"
 
 interface Action {
   type:
@@ -15,6 +17,7 @@ interface Action {
 interface CardContextInterface {
   dispatch: (action: Action) => void
   state: typeof initialState
+  calcPrice: (transactions: ITransaction[]) => void
 }
 
 const initialState = {
@@ -43,8 +46,23 @@ export const CardContextProvider = ({ children } : Children) => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const calcPrice = useCallback((transactions: ITransaction[]) => {
+    transactions.forEach(transaction => {
+      switch(transaction.type) {
+        case "EXPENSE":
+          dispatch({ type: 'expenses/increment', payload: parsePrice(transaction.value) });
+          dispatch({ type: 'balance/decrement', payload: parsePrice(transaction.value) });
+        break;
+        case "INCOME":
+          dispatch({ type: 'incomes/increment', payload: parsePrice(transaction.value) });
+          dispatch({ type: 'balance/increment', payload: parsePrice(transaction.value) });
+        break;
+      }
+    })
+  }, [])
+
   return (
-    <CardContext.Provider value={{ state, dispatch }}>
+    <CardContext.Provider value={{ state, dispatch, calcPrice }}>
       { children }
     </CardContext.Provider>
   )

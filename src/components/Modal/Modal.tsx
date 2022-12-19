@@ -3,9 +3,11 @@ import * as S from './modal.styles'
 import * as F from '../../styles/Form.styles'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { ModalProps } from '../../types/modal.types'
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
 import { toast } from 'react-toastify'
 import { api } from '../../services/api'
+import { TransactionsContext } from '../../contexts/TransactionsContext'
+import { CardContext } from '../../contexts/CardContext'
 
 interface ModalValues {
   name: string,
@@ -18,21 +20,21 @@ export const Modal = ({ setIsOpen } : ModalProps) => {
 
   const { register, handleSubmit } = useForm<ModalValues>();
 
-  const onSubmit: SubmitHandler<ModalValues> = useCallback(
-    async (data) => {
+  const { transactions, handleTransaction } = useContext(TransactionsContext)
+  const { calcPrice } = useContext(CardContext);
 
-      try {
-        await api.post('/transactions', {...data, value: parseFloat(data.value) * 100 })
-        toast.success('New transaction added!')
-      } catch (error) {
-        toast.error('An error occured');
-      }
-      
-      setIsOpen(false)
-      
+  const onSubmit: SubmitHandler<ModalValues> = useCallback( async (data) => {
+    try {
+      const response = await api.post('/transactions', {...data, value: parseFloat(data.value) * 100 })
+      handleTransaction([...transactions!, response.data ])
+      calcPrice(transactions!);
+      toast.success('New transaction added!')
+    } catch (error) {
+      toast.error('An error occured');
     }
-  , [])
-      
+    setIsOpen(false)
+  }, [])
+
   return (
     createPortal(
       <S.Wrapper key={'modal'} onClick={() => setIsOpen(false)}>

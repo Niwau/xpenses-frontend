@@ -6,3 +6,7 @@ export const Header = styled.header`
   padding: 2rem 6rem;
   border-bottom: 1px solid var(--light-gray);
 `;
+
+export const Logout = styled.h2`
+  cursor: pointer;
+`

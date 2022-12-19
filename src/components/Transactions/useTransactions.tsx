@@ -4,16 +4,17 @@ import { api } from "../../services/api";
 import { Transaction } from "../Transaction/Transaction";
 import { ITransaction } from "../Transaction/transaction.type";
 import { parsePrice } from "../../helpers/parsePrice";
+import { TransactionsContext } from "../../contexts/TransactionsContext";
 
 export const useTransaction = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [transactions, setTransactions] = useState<ITransaction[] | null>(null);
+  const { handleTransaction, transactions } = useContext(TransactionsContext);
   const { dispatch } = useContext(CardContext);
 
   useEffect(() => {
     (async () => {
       const response = await api.get('transactions', { headers: { Authorization: localStorage.getItem('token') } })
-      setTransactions(response.data)
+      handleTransaction(response.data)
       getPrice(response.data)
     })()
   }, [])

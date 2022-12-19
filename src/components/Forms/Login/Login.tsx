@@ -8,10 +8,9 @@ import { toast } from 'react-toastify';
 import { useCallback, useContext } from 'react';
 import { AuthContext } from '../../../contexts/AuthContext';
 
-
 export const Login = () => {
 
-  const { handleAuthentication } = useContext(AuthContext);
+  const { handleAuthentication, isAuthenticated } = useContext(AuthContext);
 
   const { register, handleSubmit, formState } = useForm<LoginFormValues>({
     resolver: yupResolver(loginSchema)
@@ -21,7 +20,6 @@ export const Login = () => {
     async (data) => {
       try {
         const response = await api.post('/auth/login', data);
-        console.log(response);
         localStorage.setItem('token', response.data.token);
         handleAuthentication(true);
       } catch (error: any) {

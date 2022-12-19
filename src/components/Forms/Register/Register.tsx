@@ -48,7 +48,7 @@ export const Register = () => {
          <S.Error>{ formState.errors.password?.message }</S.Error>
       </S.Section>
       <S.Button>Create account</S.Button>
-      <S.Paragraph>Already have an account? <S.Link to={'/signin'}>Log in</S.Link></S.Paragraph>
+      <S.Paragraph>Already have an account? <S.Link to={'/'}>Log in</S.Link></S.Paragraph>
     </S.Form>
   )
 }
