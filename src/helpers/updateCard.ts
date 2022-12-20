@@ -18,3 +18,18 @@ export const updateCard = (transactions: ITransaction[]) => {
     }
   })
 }
+
+export const updateCardDelete = (transactions: ITransaction[]) => {
+  transactions.forEach(trans => {
+    switch(trans.type) {
+      case "EXPENSE":
+        store.dispatch(expensesSlice.actions.decrement(trans.value))
+        store.dispatch(balanceSlice.actions.increment(trans.value))
+        break;
+      case "INCOME":
+        store.dispatch(incomesSlice.actions.decrement(trans.value))
+        store.dispatch(balanceSlice.actions.decrement(trans.value))
+      break;
+    }
+  })
+}

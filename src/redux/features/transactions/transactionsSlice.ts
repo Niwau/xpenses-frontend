@@ -12,6 +12,12 @@ export const transactionsSlice = createSlice({
     },
     set(state, action) {
       state.splice(0, state.length, ...action.payload);
+    },
+    remove(state, action) {
+      const index = state.findIndex((item, index) => (
+        item.id == action.payload
+      ))
+      state.splice(index, 1);
     }
   }
 })

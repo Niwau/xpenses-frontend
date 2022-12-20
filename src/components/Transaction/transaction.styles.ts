@@ -54,3 +54,15 @@ export const Category = styled.h2`
   font-weight: 400;
   color: var(--gray);
 `
+
+export const Footer = styled.footer`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-end;
+  > svg {
+    font-size: 2rem;
+    color: var(--gray);
+  }
+`
