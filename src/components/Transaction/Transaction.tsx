@@ -1,4 +1,4 @@
-import { ArrowArcRight, ArrowArcLeft, Trash } from "phosphor-react"
+import { ArrowArcRight, ArrowArcLeft } from "phosphor-react"
 import { parsePrice } from "../../helpers/parsePrice"
 import * as S from './transaction.styles'
 import { useCallback } from "react"
@@ -34,7 +34,6 @@ export const Transaction = ({ type, category, name, value, id }: TransactionProp
   return (
     <S.Wrapper>
       <S.Aside>
-        <S.Icon src="svg/Hamburger.svg" alt="Hamburger" />
         <S.Section>
           <S.Name>{name}</S.Name>
           <S.Category>{category}</S.Category>
@@ -42,7 +41,7 @@ export const Transaction = ({ type, category, name, value, id }: TransactionProp
       </S.Aside>
       <S.Footer>
         <S.Price type={type}>{type == 'EXPENSE' ? <ArrowArcLeft/> : <ArrowArcRight/>}${parsePrice(value)}</S.Price>
-        <Trash onClick={() => removeTransaction(id)}/>
+        <S.Trash onClick={() => removeTransaction(id)}/>
       </S.Footer>
     </S.Wrapper>
   )

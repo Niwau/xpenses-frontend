@@ -1,3 +1,4 @@
+import { Trash as trash } from 'phosphor-react';
 import styled from 'styled-components';
 
 interface PriceProps {
@@ -24,6 +25,18 @@ export const Aside = styled.aside`
 `
 
 export const Wrapper = styled.section`
+
+  @keyframes fade {
+    0% {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  animation: fade 1s ease;
   border: 1px solid var(--light-gray);
   border-radius: 0.5rem;
   display: flex;
@@ -65,4 +78,8 @@ export const Footer = styled.footer`
     font-size: 2rem;
     color: var(--gray);
   }
+`
+
+export const Trash = styled(trash)`
+  cursor: pointer;
 `
