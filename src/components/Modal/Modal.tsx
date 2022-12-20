@@ -3,11 +3,14 @@ import * as S from './modal.styles'
 import * as F from '../../styles/Form.styles'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { ModalProps } from '../../types/modal.types'
-import { useCallback, useContext } from 'react'
+import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { api } from '../../services/api'
-import { TransactionsContext } from '../../contexts/TransactionsContext'
-import { CardContext } from '../../contexts/CardContext'
+import { AxiosResponse } from 'axios'
+import { ITransaction } from '../Transaction/transaction.type'
+import { updateCard } from '../../helpers/updateCard'
+import { useAppDispatch } from '../../hooks/useAppDispatch'
+import { transactionsSlice } from '../../redux/features/transactions/transactionsSlice'
 
 interface ModalValues {
   name: string,
@@ -18,19 +21,23 @@ interface ModalValues {
 
 export const Modal = ({ setIsOpen } : ModalProps) => {
 
+  const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm<ModalValues>();
 
-  const { transactions, handleTransaction } = useContext(TransactionsContext)
-  const { calcPrice } = useContext(CardContext);
-
-  const onSubmit: SubmitHandler<ModalValues> = useCallback( async (data) => {
+  const onSubmit: SubmitHandler<ModalValues> = useCallback(async (data) => {
     try {
-      const response = await api.post('/transactions', {...data, value: parseFloat(data.value) * 100 })
-      handleTransaction([...transactions!, response.data ])
-      calcPrice(transactions!);
+      const response: AxiosResponse<ITransaction> = await api.post('/transactions', {
+        ...data, 
+        value: parseFloat(data.value) * 100
+      }, {
+        headers: { Authorization: localStorage.getItem('token')}
+      })
       toast.success('New transaction added!')
+      updateCard([response.data]);
+      dispatch(transactionsSlice.actions.add(response.data))
     } catch (error) {
       toast.error('An error occured');
+      console.log(error)
     }
     setIsOpen(false)
   }, [])

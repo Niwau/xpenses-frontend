@@ -1,21 +1,20 @@
-import React, { useContext } from 'react'
 import { Card } from '../../components/Card/Card';
 import { Login } from '../../components/Forms/Login/Login';
 import { Header } from '../../components/Header/Header';
 import { Transactions } from '../../components/Transactions/Transactions';
-import { AuthContext } from '../../contexts/AuthContext';
 import * as S from './main.styles'
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 export const Main = () => {
 
-  const { isAuthenticated } = useContext(AuthContext);
+  const { auth } = useAppSelector(state => state);
 
-  if (!isAuthenticated) {
+  if (!auth.isAuthenticated) {
     return <Login/>
   }
 
   return (
-    <React.Fragment>
+    <>
       <Header/>
       <S.Wrapper>
         <div>
@@ -23,6 +22,6 @@ export const Main = () => {
           <Transactions/>
         </div>
       </S.Wrapper>
-    </React.Fragment>
+    </>
   )
 }

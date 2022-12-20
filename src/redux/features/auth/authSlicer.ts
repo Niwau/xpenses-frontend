@@ -12,7 +12,8 @@ export const authSlicer = createSlice({
       state.isAuthenticated = true
     },
     logout: (state) => {
-      state.isAuthenticated = false
+      state.isAuthenticated = false,
+      localStorage.removeItem('token')
     }
   }
 })

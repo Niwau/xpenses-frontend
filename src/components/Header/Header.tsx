@@ -1,14 +1,16 @@
-import { useCallback, useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
 import * as S from './header.styles'
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { authSlicer } from '../../redux/features/auth/authSlicer';
+import { useCallback } from 'react';
+import { resetCard } from '../../helpers/resetCard';
 
 export const Header = () => {
 
-  const { handleAuthentication } = useContext(AuthContext);
+  const dispatch = useAppDispatch();
 
   const logout = useCallback(() => {
-    handleAuthentication(false);
-    localStorage.removeItem('token');
+    dispatch(authSlicer.actions.logout());
+    resetCard();
   }, [])
 
   return (

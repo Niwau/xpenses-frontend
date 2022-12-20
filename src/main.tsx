@@ -5,11 +5,9 @@ import { RouterProvider } from 'react-router-dom'
 import { Globals } from './styles/Globals.styles'
 import { Toast } from './components/Toast/Toast'
 import { Main } from './pages/Main/Main'
-import { AuthProvider } from './contexts/AuthContext'
-import { CardContextProvider } from './contexts/CardContext'
-import { TransactionsProvider } from './contexts/TransactionsContext'
 import { Provider } from 'react-redux'
 import { store } from './redux/store'
+import { AuthHandler } from './components/AuthHandler/AuthHandler'
 
 const router = createBrowserRouter(
  [
@@ -26,14 +24,10 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
-    <AuthProvider>
-    <TransactionsProvider>
-      <CardContextProvider>
-        <Globals/>
-        <RouterProvider router={router}/>
-        <Toast/>
-      </CardContextProvider>
-    </TransactionsProvider>
-  </AuthProvider>
+    <AuthHandler>
+      <Globals/>
+      <RouterProvider router={router}/>
+      <Toast/>
+    </AuthHandler>
   </Provider>
 )

@@ -21,7 +21,7 @@ export const Register = () => {
       try {
         await api.post('/auth/register', data);
         toast.success('Your account was created!');
-        navigate('/signin');
+        navigate('/');
       } catch (error: any) {
         toast.error(`${error.response.data.message}`);
       }

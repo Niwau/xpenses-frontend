@@ -5,12 +5,13 @@ import * as S from '../../../styles/Form.styles'
 import { loginSchema } from './login.schema';
 import { LoginFormValues } from '../../../types/form-values.types';
 import { toast } from 'react-toastify';
-import { useCallback, useContext } from 'react';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { useCallback } from 'react';
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import { authSlicer } from '../../../redux/features/auth/authSlicer';
 
 export const Login = () => {
 
-  const { handleAuthentication, isAuthenticated } = useContext(AuthContext);
+  const dispatch = useAppDispatch();
 
   const { register, handleSubmit, formState } = useForm<LoginFormValues>({
     resolver: yupResolver(loginSchema)
@@ -21,7 +22,7 @@ export const Login = () => {
       try {
         const response = await api.post('/auth/login', data);
         localStorage.setItem('token', response.data.token);
-        handleAuthentication(true);
+        dispatch(authSlicer.actions.authenticate());
       } catch (error: any) {
         toast.error(`${error.response.data.message}`);
       }
